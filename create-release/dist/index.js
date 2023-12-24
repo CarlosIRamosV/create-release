@@ -24740,6 +24740,9 @@ const wait_1 = __nccwpck_require__(7065);
  */
 async function run() {
     try {
+        const path = core.getInput('path');
+        // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
+        core.debug(`Waiting ${path} ...`);
         const ms = core.getInput('milliseconds');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         core.debug(`Waiting ${ms} milliseconds ...`);
@@ -26678,7 +26681,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
  * The entrypoint for the action.
  */
 const main_1 = __nccwpck_require__(3241);
-// eslint-disable-next-line @typescript-eslint/no-floating-promises
 (0, main_1.run)();
 
 })();
