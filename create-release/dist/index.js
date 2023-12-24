@@ -24751,6 +24751,13 @@ async function run() {
         // Log files in the directory
         core.info('Files in the directory:');
         core.info(JSON.stringify(fs.readdirSync(directory), null, 2));
+        // Check if 'package.json' exists in the directory
+        const packageJsonPath = pathS.join(directory, 'package.json');
+        if (!fs.existsSync(packageJsonPath)) {
+            new Error(`No package.json found in ${directory}`);
+        }
+        // Log the package.json file
+        core.info(`Contents of ${packageJsonPath}:`);
         // Set outputs for other workflow steps to use
         core.setOutput('time', new Date().toTimeString());
     }
