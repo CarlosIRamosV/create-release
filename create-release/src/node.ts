@@ -5,7 +5,7 @@ import * as fs from 'fs'
  * @param {string} directory The directory to look for the package.json file.
  * @returns {string} The version of the package.
  */
-function getVersions(directory: string): string {
+function getNodeVersions(directory: string): string {
   let file = directory + '/package.json'
   let data = fs.readFileSync(file)
   let packageJson = JSON.parse(data.toString())
@@ -21,12 +21,4 @@ function isNode(directory: string): boolean {
   return fs.existsSync(directory + '/package.json')
 }
 
-function getNodeVersions(directory: string): string {
-  if (isNode(directory)) {
-    return getVersions(directory)
-  } else {
-    return ''
-  }
-}
-
-export { getNodeVersions }
+export { getNodeVersions, isNode }

@@ -1,7 +1,8 @@
 import * as core from '@actions/core'
 import * as pathS from 'path'
 import * as fs from 'fs'
-import { getNodeVersions } from './node'
+import { getNodeVersions, isNode } from './node'
+import { getRustVersions, isRust } from './rust'
 
 /**
  * The main function for the action.
@@ -23,15 +24,16 @@ export async function run(): Promise<void> {
     core.info('Files in the directory:')
     core.info(JSON.stringify(fs.readdirSync(directory), null, 2))
 
-    let NodeVersions = getNodeVersions(directory)
-
-    if (NodeVersions) {
-      core.info(`The Node.js version is ${NodeVersions}`)
+    if (isNode(directory)) {
+      core.info('This is a Node.js project')
+      core.info(`The version is ${getNodeVersions(directory)}`)
+    } else if (isRust(directory)) {
+      core.info('This is a Rust project')
+      core.info(`The version is ${getRustVersions(directory)}`)
+    } else {
+      core.info('This is not a Node.js or Rust project')
     }
 
-    // Read the package.json file
-
-    // Set outputs for other workflow steps to use
     core.setOutput('time', new Date().toTimeString())
   } catch (error) {
     // Fail the workflow run if an error occurs
