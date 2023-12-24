@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import * as path from 'path'
 import { wait } from './wait'
+import * as fs from 'fs'
 
 /**
  * The main function for the action.
@@ -10,6 +11,13 @@ export async function run(): Promise<void> {
   try {
     // Print out the current working directory
     core.debug(`Current working directory: ${path.resolve()}`)
+
+    // Print out the contents of the workspace directory
+    const workspaceDir: string = process.env['GITHUB_WORKSPACE'] || ''
+    core.debug(`Current workspace directory: ${workspaceDir}`)
+    core.debug(`Current workspace contents:`)
+    core.debug(JSON.stringify(fs.readdirSync(workspaceDir)))
+    core.info(`Current workspace contents: ${fs.readdirSync(workspaceDir)}`)
 
     // Check the type of package to create
 

@@ -24735,6 +24735,7 @@ exports.run = void 0;
 const core = __importStar(__nccwpck_require__(3722));
 const path = __importStar(__nccwpck_require__(1017));
 const wait_1 = __nccwpck_require__(7065);
+const fs = __importStar(__nccwpck_require__(7147));
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -24743,6 +24744,12 @@ async function run() {
     try {
         // Print out the current working directory
         core.debug(`Current working directory: ${path.resolve()}`);
+        // Print out the contents of the workspace directory
+        const workspaceDir = process.env['GITHUB_WORKSPACE'] || '';
+        core.debug(`Current workspace directory: ${workspaceDir}`);
+        core.debug(`Current workspace contents:`);
+        core.debug(JSON.stringify(fs.readdirSync(workspaceDir)));
+        core.info(`Current workspace contents: ${fs.readdirSync(workspaceDir)}`);
         // Check the type of package to create
         const ms = core.getInput('milliseconds');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
