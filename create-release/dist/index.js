@@ -24739,6 +24739,14 @@ const core = __importStar(__nccwpck_require__(3722));
  */
 async function run() {
     try {
+        // Print a message to the info stream.
+        core.info('Hello, world!');
+        core.debug('Debugging');
+        core.warning('Warning');
+        console.log('Hello, world!');
+        core.error('Error');
+        core.setFailed('Failure');
+        core.setCommandEcho(true);
         console.log('Hello, world!');
     }
     catch (error) {
