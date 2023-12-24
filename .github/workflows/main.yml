@@ -8,6 +8,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Create Release
-        uses: actions/typescript-action
+        uses: actions/typescript-action@main
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
