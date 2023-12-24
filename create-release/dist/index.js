@@ -24749,7 +24749,7 @@ async function run() {
         core.debug(`Current workspace directory: ${workspaceDir}`);
         core.debug(`Current workspace contents:`);
         core.debug(JSON.stringify(fs.readdirSync(workspaceDir)));
-        core.info(`Current workspace contents: ${fs.readdirSync(workspaceDir)}`);
+        console.log(`Current workspace contents: ${fs.readdirSync(workspaceDir)}`);
         // Check the type of package to create
         const ms = core.getInput('milliseconds');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true

@@ -17,7 +17,7 @@ export async function run(): Promise<void> {
     core.debug(`Current workspace directory: ${workspaceDir}`)
     core.debug(`Current workspace contents:`)
     core.debug(JSON.stringify(fs.readdirSync(workspaceDir)))
-    core.info(`Current workspace contents: ${fs.readdirSync(workspaceDir)}`)
+    console.log(`Current workspace contents: ${fs.readdirSync(workspaceDir)}`)
 
     // Check the type of package to create
 
