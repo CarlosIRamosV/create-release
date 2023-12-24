@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as pathS from 'path'
-import { wait } from './wait'
+import * as fs from 'fs'
 
 /**
  * The main function for the action.
@@ -15,12 +15,12 @@ export async function run(): Promise<void> {
       directory = pathS.join(process.env.GITHUB_WORKSPACE || '', directory)
     }
 
-    // Wait for 5 seconds
-    core.info('Waiting for 5 seconds...')
-    await wait(5000)
-
     // Log the directory path
     core.info(`The path is ${directory}`)
+
+    // Log files in the directory
+    core.info('Files in the directory:')
+    core.info(JSON.stringify(fs.readdirSync(directory), null, 2))
 
     // Set outputs for other workflow steps to use
     core.setOutput('time', new Date().toTimeString())

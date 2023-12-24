@@ -24734,7 +24734,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(3722));
 const pathS = __importStar(__nccwpck_require__(1017));
-const wait_1 = __nccwpck_require__(7065);
+const fs = __importStar(__nccwpck_require__(7147));
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -24746,11 +24746,11 @@ async function run() {
         if (!pathS.isAbsolute(directory)) {
             directory = pathS.join(process.env.GITHUB_WORKSPACE || '', directory);
         }
-        // Wait for 5 seconds
-        core.info('Waiting for 5 seconds...');
-        await (0, wait_1.wait)(5000);
         // Log the directory path
         core.info(`The path is ${directory}`);
+        // Log files in the directory
+        core.info('Files in the directory:');
+        core.info(JSON.stringify(fs.readdirSync(directory), null, 2));
         // Set outputs for other workflow steps to use
         core.setOutput('time', new Date().toTimeString());
     }
@@ -24761,31 +24761,6 @@ async function run() {
     }
 }
 exports.run = run;
-
-
-/***/ }),
-
-/***/ 7065:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.wait = void 0;
-/**
- * Wait for a number of milliseconds.
- * @param milliseconds The number of milliseconds to wait.
- * @returns {Promise<string>} Resolves with 'done!' after the wait is over.
- */
-async function wait(milliseconds) {
-    return new Promise(resolve => {
-        if (isNaN(milliseconds)) {
-            throw new Error('milliseconds not a number');
-        }
-        setTimeout(() => resolve('done!'), milliseconds);
-    });
-}
-exports.wait = wait;
 
 
 /***/ }),
