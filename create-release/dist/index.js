@@ -24735,6 +24735,7 @@ exports.run = void 0;
 const core = __importStar(__nccwpck_require__(3722));
 const pathS = __importStar(__nccwpck_require__(1017));
 const fs = __importStar(__nccwpck_require__(7147));
+const node_1 = __nccwpck_require__(9224);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -24751,13 +24752,8 @@ async function run() {
         // Log files in the directory
         core.info('Files in the directory:');
         core.info(JSON.stringify(fs.readdirSync(directory), null, 2));
-        // Check if 'package.json' exists in the directory
-        const packageJsonPath = pathS.join(directory, 'package.json');
-        if (!fs.existsSync(packageJsonPath)) {
-            new Error(`No package.json found in ${directory}`);
-        }
-        // Log the package.json file
-        core.info(`Contents of ${packageJsonPath}:`);
+        console.log((0, node_1.getVersions)(directory));
+        // Read the package.json file
         // Set outputs for other workflow steps to use
         core.setOutput('time', new Date().toTimeString());
     }
@@ -24768,6 +24764,49 @@ async function run() {
     }
 }
 exports.run = run;
+
+
+/***/ }),
+
+/***/ 9224:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.getVersions = void 0;
+const fs = __importStar(__nccwpck_require__(7147));
+function getVersions(directory) {
+    let file = directory + '/package.json';
+    let data = fs.readFileSync(file);
+    console.log(data);
+    let packageJson = JSON.parse(data.toString());
+    return packageJson['version'];
+}
+exports.getVersions = getVersions;
 
 
 /***/ }),

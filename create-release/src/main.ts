@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import * as pathS from 'path'
 import * as fs from 'fs'
+import { getVersions } from './node'
 
 /**
  * The main function for the action.
@@ -22,15 +23,9 @@ export async function run(): Promise<void> {
     core.info('Files in the directory:')
     core.info(JSON.stringify(fs.readdirSync(directory), null, 2))
 
-    // Check if 'package.json' exists in the directory
-    const packageJsonPath = pathS.join(directory, 'package.json')
+    console.log(getVersions(directory))
 
-    if (!fs.existsSync(packageJsonPath)) {
-      new Error(`No package.json found in ${directory}`)
-    }
-
-    // Log the package.json file
-    core.info(`Contents of ${packageJsonPath}:`)
+    // Read the package.json file
 
     // Set outputs for other workflow steps to use
     core.setOutput('time', new Date().toTimeString())
