@@ -4,10 +4,12 @@ jobs:
   hello_world_job:
     runs-on: ubuntu-latest
     name: A job to say hello
+    env:
+      ACTIONS_STEP_DEBUG: true
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Create Release
-        uses: actions/typescript-action@main
+        uses: CarlosIRamosV/create-release/create-release@main
       - name: Get the output time
         run: echo "The time was ${{ steps.hello.outputs.time }}"
