@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as path from 'path'
 import { wait } from './wait'
 
 /**
@@ -7,6 +8,11 @@ import { wait } from './wait'
  */
 export async function run(): Promise<void> {
   try {
+    // Print out the current working directory
+    core.debug(`Current working directory: ${path.resolve()}`)
+
+    // Check the type of package to create
+
     const ms: string = core.getInput('milliseconds')
 
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true

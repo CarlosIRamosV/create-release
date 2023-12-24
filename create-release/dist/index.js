@@ -24733,6 +24733,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(3722));
+const path = __importStar(__nccwpck_require__(1017));
 const wait_1 = __nccwpck_require__(7065);
 /**
  * The main function for the action.
@@ -24740,6 +24741,9 @@ const wait_1 = __nccwpck_require__(7065);
  */
 async function run() {
     try {
+        // Print out the current working directory
+        core.debug(`Current working directory: ${path.resolve()}`);
+        // Check the type of package to create
         const ms = core.getInput('milliseconds');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         core.debug(`Waiting ${ms} milliseconds ...`);
