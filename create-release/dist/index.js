@@ -24752,7 +24752,10 @@ async function run() {
         // Log files in the directory
         core.info('Files in the directory:');
         core.info(JSON.stringify(fs.readdirSync(directory), null, 2));
-        console.log((0, node_1.getVersions)(directory));
+        let NodeVersions = (0, node_1.getNodeVersions)(directory);
+        if (NodeVersions) {
+            core.info(`The Node.js version is ${NodeVersions}`);
+        }
         // Read the package.json file
         // Set outputs for other workflow steps to use
         core.setOutput('time', new Date().toTimeString());
@@ -24797,16 +24800,36 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getVersions = void 0;
+exports.getNodeVersions = void 0;
 const fs = __importStar(__nccwpck_require__(7147));
+/**
+ * Get the version of the package in the given directory.
+ * @param {string} directory The directory to look for the package.json file.
+ * @returns {string} The version of the package.
+ */
 function getVersions(directory) {
     let file = directory + '/package.json';
     let data = fs.readFileSync(file);
-    console.log(data);
     let packageJson = JSON.parse(data.toString());
     return packageJson['version'];
 }
-exports.getVersions = getVersions;
+/**
+ * Check if the given directory is a Node.js project.
+ * @param directory The directory to check.
+ * @returns {boolean} True if the directory is a Node.js project, false otherwise.
+ */
+function isNode(directory) {
+    return fs.existsSync(directory + '/package.json');
+}
+function getNodeVersions(directory) {
+    if (isNode(directory)) {
+        return getVersions(directory);
+    }
+    else {
+        return '';
+    }
+}
+exports.getNodeVersions = getNodeVersions;
 
 
 /***/ }),

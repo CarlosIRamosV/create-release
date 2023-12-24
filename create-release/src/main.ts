@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import * as pathS from 'path'
 import * as fs from 'fs'
-import { getVersions } from './node'
+import { getNodeVersions } from './node'
 
 /**
  * The main function for the action.
@@ -23,7 +23,11 @@ export async function run(): Promise<void> {
     core.info('Files in the directory:')
     core.info(JSON.stringify(fs.readdirSync(directory), null, 2))
 
-    console.log(getVersions(directory))
+    let NodeVersions = getNodeVersions(directory)
+
+    if (NodeVersions) {
+      core.info(`The Node.js version is ${NodeVersions}`)
+    }
 
     // Read the package.json file
 
