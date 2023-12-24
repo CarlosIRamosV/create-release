@@ -24733,6 +24733,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(3722));
+const pathS = __importStar(__nccwpck_require__(1017));
 const wait_1 = __nccwpck_require__(7065);
 /**
  * The main function for the action.
@@ -24740,19 +24741,16 @@ const wait_1 = __nccwpck_require__(7065);
  */
 async function run() {
     try {
-        // Action directory
-        const path = core.getInput('path');
-        // Redirect to directory
-        process.chdir(path);
-        // Print list of files in directory
-        console.log(process.cwd());
-        const ms = core.getInput('milliseconds');
-        // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        core.debug(`Waiting ${ms} milliseconds ...`);
-        // Log the current timestamp, wait, then log the new timestamp
-        core.debug(new Date().toTimeString());
-        await (0, wait_1.wait)(parseInt(ms, 10));
-        core.debug(new Date().toTimeString());
+        let directory = core.getInput('path');
+        // If the directory path is not absolute, make it absolute
+        if (!pathS.isAbsolute(directory)) {
+            directory = pathS.join(process.env.GITHUB_WORKSPACE || '', directory);
+        }
+        // Wait for 5 seconds
+        core.info('Waiting for 5 seconds...');
+        await (0, wait_1.wait)(5000);
+        // Log the directory path
+        core.info(`The path is ${directory}`);
         // Set outputs for other workflow steps to use
         core.setOutput('time', new Date().toTimeString());
     }

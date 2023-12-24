@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as pathS from 'path'
 import { wait } from './wait'
 
 /**
@@ -7,24 +8,19 @@ import { wait } from './wait'
  */
 export async function run(): Promise<void> {
   try {
-    // Action directory
-    const path: string = core.getInput('path')
+    let directory = core.getInput('path')
 
-    // Redirect to directory
-    process.chdir(path)
+    // If the directory path is not absolute, make it absolute
+    if (!pathS.isAbsolute(directory)) {
+      directory = pathS.join(process.env.GITHUB_WORKSPACE || '', directory)
+    }
 
-    // Print list of files in directory
-    console.log(process.cwd())
+    // Wait for 5 seconds
+    core.info('Waiting for 5 seconds...')
+    await wait(5000)
 
-    const ms: string = core.getInput('milliseconds')
-
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
-
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    // Log the directory path
+    core.info(`The path is ${directory}`)
 
     // Set outputs for other workflow steps to use
     core.setOutput('time', new Date().toTimeString())
