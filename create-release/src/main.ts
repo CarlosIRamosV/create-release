@@ -7,10 +7,15 @@ import { wait } from './wait'
  */
 export async function run(): Promise<void> {
   try {
+    // Action directory
     const path: string = core.getInput('path')
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${path} ...`)
+    // Redirect to directory
+    process.chdir(path)
+
+    // Print list of files in directory
+    console.log(process.cwd())
+
     const ms: string = core.getInput('milliseconds')
 
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true

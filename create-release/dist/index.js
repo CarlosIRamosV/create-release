@@ -24740,9 +24740,12 @@ const wait_1 = __nccwpck_require__(7065);
  */
 async function run() {
     try {
+        // Action directory
         const path = core.getInput('path');
-        // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-        core.debug(`Waiting ${path} ...`);
+        // Redirect to directory
+        process.chdir(path);
+        // Print list of files in directory
+        console.log(process.cwd());
         const ms = core.getInput('milliseconds');
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         core.debug(`Waiting ${ms} milliseconds ...`);
